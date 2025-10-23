@@ -1,0 +1,15 @@
+{
+  "name": "math-rs-dev",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "eamodio.gitlens",
+        "esbenp.prettier-vscode",
+        "bytecodealliance.wit-idl"
+      ]
+    }
+  }
+}
