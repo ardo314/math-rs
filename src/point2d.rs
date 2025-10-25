@@ -19,7 +19,7 @@ impl Guest for Component {
 #[cfg(test)]
 mod tests {
     use super::Component;
-    use crate::bindings::exports::ardo314::math::{point2d, point3d, vector2d, vector3d};
+    use crate::bindings::exports::ardo314::math::point2d;
 
     // Helper macro for floating point comparison with tolerance
     macro_rules! assert_float_eq {
