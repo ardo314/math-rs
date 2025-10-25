@@ -1,6 +1,9 @@
-use crate::Component;
+use crate::{
+    Component,
+    bindings::exports::ardo314::math::{types::Vector2d, vector2d::Guest},
+};
 
-impl bindings::exports::ardo314::math::vector2d::Guest for Component {
+impl Guest for Component {
     fn add(lhs: Vector2d, rhs: Vector2d) -> Vector2d {
         (lhs.0 + rhs.0, lhs.1 + rhs.1)
     }

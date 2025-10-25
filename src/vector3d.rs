@@ -1,6 +1,9 @@
-use crate::Component;
+use crate::{
+    Component,
+    bindings::exports::ardo314::math::{types::Vector3d, vector3d::Guest},
+};
 
-impl bindings::exports::ardo314::math::vector3d::Guest for Component {
+impl Guest for Component {
     fn add(lhs: Vector3d, rhs: Vector3d) -> Vector3d {
         (lhs.0 + rhs.0, lhs.1 + rhs.1, lhs.2 + rhs.2)
     }
