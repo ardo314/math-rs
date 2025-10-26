@@ -1,0 +1,11 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Generate bindings",
+      "type": "shell",
+      "command": "cargo component bindings --config config.toml",
+      "problemMatcher": []
+    }
+  ]
+}

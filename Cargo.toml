@@ -1,0 +1,16 @@
+[package]
+name = "math-rs"
+version = "0.0.1"
+edition = "2024"
+
+[dependencies]
+wit-bindgen-rt = { version = "0.44.0", features = ["bitflags"] }
+
+[lib]
+crate-type = ["cdylib"]
+
+[package.metadata.component]
+package = "ardo314:math-rs"
+target = "ardo314:math@0.0.1"
+
+[package.metadata.component.dependencies]

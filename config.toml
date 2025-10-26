@@ -1,0 +1,4 @@
+default_registry = "docker.io"
+
+[namespace_registries]
+ardo314 = { registry = "docker.io", metadata = { preferredProtocol="oci", "oci" = { registry="docker.io", namespacePrefix="" } } }
