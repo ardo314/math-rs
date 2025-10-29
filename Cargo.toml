@@ -11,6 +11,6 @@ crate-type = ["cdylib"]
 
 [package.metadata.component]
 package = "ardo314:math-rs"
-target = "ardo314:math@0.0.2"
+target = { path = "./ardo314_math@0.0.2.wit" }
 
 [package.metadata.component.dependencies]

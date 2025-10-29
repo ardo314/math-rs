@@ -1,6 +1,6 @@
 use crate::{
     Component,
-    bindings::exports::ardo314::math::{Vector4d::Guest, types::Vector4d},
+    bindings::exports::ardo314::math::{types::Vector4d, vector4d::Guest},
 };
 
 impl Guest for Component {
@@ -47,9 +47,9 @@ impl Guest for Component {
     fn normalize(v: Vector4d) -> Vector4d {
         let len = Self::length(v);
         if len > 0.0 {
-            (v.0 / len, v.1 / len, v.2 / len)
+            (v.0 / len, v.1 / len, v.2 / len, v.3 / len)
         } else {
-            (0.0, 0.0, 0.0)
+            (0.0, 0.0, 0.0, 0.0)
         }
     }
 }
