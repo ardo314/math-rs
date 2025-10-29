@@ -2,6 +2,7 @@
 mod bindings;
 mod point2d;
 mod point3d;
+mod quaternion;
 mod rotation_vector;
 mod vector2d;
 mod vector3d;
