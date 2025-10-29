@@ -16,11 +16,19 @@ impl Guest for Component {
         lhs.0 * rhs.0 + lhs.1 * rhs.1 + lhs.2 * rhs.2
     }
 
-    fn mul(lhs: Vector3d, rhs: f32) -> Vector3d {
+    fn add_f32(lhs: Vector3d, rhs: f32) -> Vector3d {
+        (lhs.0 + rhs, lhs.1 + rhs, lhs.2 + rhs)
+    }
+
+    fn sub_f32(lhs: Vector3d, rhs: f32) -> Vector3d {
+        (lhs.0 - rhs, lhs.1 - rhs, lhs.2 - rhs)
+    }
+
+    fn mul_f32(lhs: Vector3d, rhs: f32) -> Vector3d {
         (lhs.0 * rhs, lhs.1 * rhs, lhs.2 * rhs)
     }
 
-    fn div(lhs: Vector3d, rhs: f32) -> Vector3d {
+    fn div_f32(lhs: Vector3d, rhs: f32) -> Vector3d {
         (lhs.0 / rhs, lhs.1 / rhs, lhs.2 / rhs)
     }
 
@@ -43,5 +51,13 @@ impl Guest for Component {
         } else {
             (0.0, 0.0, 0.0)
         }
+    }
+
+    fn cross(lhs: Vector3d, rhs: Vector3d) -> Vector3d {
+        (
+            lhs.1 * rhs.2 - lhs.2 * rhs.1,
+            lhs.2 * rhs.0 - lhs.0 * rhs.2,
+            lhs.0 * rhs.1 - lhs.1 * rhs.0,
+        )
     }
 }

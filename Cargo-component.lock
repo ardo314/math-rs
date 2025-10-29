@@ -6,6 +6,6 @@ version = 1
 name = "ardo314:math"
 
 [[package.version]]
-requirement = "^0.0.1"
-version = "0.0.1"
-digest = "sha256:65611f6eab1a6f765624c7e7b0b7e9e6533bc5e29143fbc612a15cca4dfec7de"
+requirement = "^0.0.2"
+version = "0.0.2"
+digest = "sha256:2989f2266068d3956f5dc90eb5d64d334770070abb69835f366a1f569bd53903"
