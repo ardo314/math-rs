@@ -19,6 +19,8 @@ pub mod exports {
                 pub type Vector4d = (f32, f32, f32, f32);
                 /// axis with angle magnitude
                 pub type RotationVector = (f32, f32, f32);
+                /// axis, angle
+                pub type AxisAngle = (Vector3d, f32);
                 /// x, y, z, w
                 pub type Quaternion = (f32, f32, f32, f32);
                 /// x, y, theta
@@ -844,13 +846,9 @@ pub mod exports {
                 pub type Quaternion = super::super::super::super::exports::ardo314::math::types::Quaternion;
                 #[doc(hidden)]
                 #[allow(non_snake_case)]
-                pub unsafe fn _export_axis_cabi<T: Guest>(
-                    arg0: f32,
-                    arg1: f32,
-                    arg2: f32,
-                ) -> *mut u8 {
+                pub unsafe fn _export_identity_cabi<T: Guest>() -> *mut u8 {
                     #[cfg(target_arch = "wasm32")] _rt::run_ctors_once();
-                    let result0 = T::axis((arg0, arg1, arg2));
+                    let result0 = T::identity();
                     let ptr1 = (&raw mut _RET_AREA.0).cast::<u8>();
                     let (t2_0, t2_1, t2_2) = result0;
                     *ptr1.add(0).cast::<f32>() = _rt::as_f32(t2_0);
@@ -860,14 +858,55 @@ pub mod exports {
                 }
                 #[doc(hidden)]
                 #[allow(non_snake_case)]
-                pub unsafe fn _export_angle_cabi<T: Guest>(
+                pub unsafe fn _export_mul_f32_cabi<T: Guest>(
                     arg0: f32,
                     arg1: f32,
                     arg2: f32,
-                ) -> f32 {
+                    arg3: f32,
+                ) -> *mut u8 {
                     #[cfg(target_arch = "wasm32")] _rt::run_ctors_once();
-                    let result0 = T::angle((arg0, arg1, arg2));
-                    _rt::as_f32(result0)
+                    let result0 = T::mul_f32((arg0, arg1, arg2), arg3);
+                    let ptr1 = (&raw mut _RET_AREA.0).cast::<u8>();
+                    let (t2_0, t2_1, t2_2) = result0;
+                    *ptr1.add(0).cast::<f32>() = _rt::as_f32(t2_0);
+                    *ptr1.add(4).cast::<f32>() = _rt::as_f32(t2_1);
+                    *ptr1.add(8).cast::<f32>() = _rt::as_f32(t2_2);
+                    ptr1
+                }
+                #[doc(hidden)]
+                #[allow(non_snake_case)]
+                pub unsafe fn _export_div_f32_cabi<T: Guest>(
+                    arg0: f32,
+                    arg1: f32,
+                    arg2: f32,
+                    arg3: f32,
+                ) -> *mut u8 {
+                    #[cfg(target_arch = "wasm32")] _rt::run_ctors_once();
+                    let result0 = T::div_f32((arg0, arg1, arg2), arg3);
+                    let ptr1 = (&raw mut _RET_AREA.0).cast::<u8>();
+                    let (t2_0, t2_1, t2_2) = result0;
+                    *ptr1.add(0).cast::<f32>() = _rt::as_f32(t2_0);
+                    *ptr1.add(4).cast::<f32>() = _rt::as_f32(t2_1);
+                    *ptr1.add(8).cast::<f32>() = _rt::as_f32(t2_2);
+                    ptr1
+                }
+                #[doc(hidden)]
+                #[allow(non_snake_case)]
+                pub unsafe fn _export_to_axis_angle_cabi<T: Guest>(
+                    arg0: f32,
+                    arg1: f32,
+                    arg2: f32,
+                ) -> *mut u8 {
+                    #[cfg(target_arch = "wasm32")] _rt::run_ctors_once();
+                    let result0 = T::to_axis_angle((arg0, arg1, arg2));
+                    let ptr1 = (&raw mut _RET_AREA.0).cast::<u8>();
+                    let (t2_0, t2_1) = result0;
+                    let (t3_0, t3_1, t3_2) = t2_0;
+                    *ptr1.add(0).cast::<f32>() = _rt::as_f32(t3_0);
+                    *ptr1.add(4).cast::<f32>() = _rt::as_f32(t3_1);
+                    *ptr1.add(8).cast::<f32>() = _rt::as_f32(t3_2);
+                    *ptr1.add(12).cast::<f32>() = _rt::as_f32(t2_1);
+                    ptr1
                 }
                 #[doc(hidden)]
                 #[allow(non_snake_case)]
@@ -887,22 +926,34 @@ pub mod exports {
                     ptr1
                 }
                 pub trait Guest {
-                    fn axis(rv: RotationVector) -> Vector3d;
-                    fn angle(rv: RotationVector) -> f32;
+                    fn identity() -> RotationVector;
+                    fn mul_f32(rv: RotationVector, s: f32) -> RotationVector;
+                    fn div_f32(rv: RotationVector, s: f32) -> RotationVector;
+                    fn to_axis_angle(rv: RotationVector) -> (Vector3d, f32);
                     fn to_quaternion(rv: RotationVector) -> Quaternion;
                 }
                 #[doc(hidden)]
                 macro_rules! __export_ardo314_math_rotation_vector_0_0_2_cabi {
                     ($ty:ident with_types_in $($path_to_types:tt)*) => {
                         const _ : () = { #[unsafe (export_name =
-                        "ardo314:math/rotation-vector@0.0.2#axis")] unsafe extern "C" fn
-                        export_axis(arg0 : f32, arg1 : f32, arg2 : f32,) -> * mut u8 {
-                        unsafe { $($path_to_types)*:: _export_axis_cabi::<$ty > (arg0,
-                        arg1, arg2) } } #[unsafe (export_name =
-                        "ardo314:math/rotation-vector@0.0.2#angle")] unsafe extern "C" fn
-                        export_angle(arg0 : f32, arg1 : f32, arg2 : f32,) -> f32 { unsafe
-                        { $($path_to_types)*:: _export_angle_cabi::<$ty > (arg0, arg1,
-                        arg2) } } #[unsafe (export_name =
+                        "ardo314:math/rotation-vector@0.0.2#identity")] unsafe extern "C"
+                        fn export_identity() -> * mut u8 { unsafe { $($path_to_types)*::
+                        _export_identity_cabi::<$ty > () } } #[unsafe (export_name =
+                        "ardo314:math/rotation-vector@0.0.2#mul-f32")] unsafe extern "C"
+                        fn export_mul_f32(arg0 : f32, arg1 : f32, arg2 : f32, arg3 :
+                        f32,) -> * mut u8 { unsafe { $($path_to_types)*::
+                        _export_mul_f32_cabi::<$ty > (arg0, arg1, arg2, arg3) } }
+                        #[unsafe (export_name =
+                        "ardo314:math/rotation-vector@0.0.2#div-f32")] unsafe extern "C"
+                        fn export_div_f32(arg0 : f32, arg1 : f32, arg2 : f32, arg3 :
+                        f32,) -> * mut u8 { unsafe { $($path_to_types)*::
+                        _export_div_f32_cabi::<$ty > (arg0, arg1, arg2, arg3) } }
+                        #[unsafe (export_name =
+                        "ardo314:math/rotation-vector@0.0.2#to-axis-angle")] unsafe
+                        extern "C" fn export_to_axis_angle(arg0 : f32, arg1 : f32, arg2 :
+                        f32,) -> * mut u8 { unsafe { $($path_to_types)*::
+                        _export_to_axis_angle_cabi::<$ty > (arg0, arg1, arg2) } }
+                        #[unsafe (export_name =
                         "ardo314:math/rotation-vector@0.0.2#to-quaternion")] unsafe
                         extern "C" fn export_to_quaternion(arg0 : f32, arg1 : f32, arg2 :
                         f32,) -> * mut u8 { unsafe { $($path_to_types)*::
@@ -918,6 +969,147 @@ pub mod exports {
                 );
             }
             #[allow(dead_code, async_fn_in_trait, unused_imports, clippy::all)]
+            pub mod axis_angle {
+                #[used]
+                #[doc(hidden)]
+                static __FORCE_SECTION_REF: fn() = super::super::super::super::__link_custom_section_describing_imports;
+                use super::super::super::super::_rt;
+                pub type AxisAngle = super::super::super::super::exports::ardo314::math::types::AxisAngle;
+                pub type RotationVector = super::super::super::super::exports::ardo314::math::types::RotationVector;
+                pub type Quaternion = super::super::super::super::exports::ardo314::math::types::Quaternion;
+                #[doc(hidden)]
+                #[allow(non_snake_case)]
+                pub unsafe fn _export_identity_cabi<T: Guest>() -> *mut u8 {
+                    #[cfg(target_arch = "wasm32")] _rt::run_ctors_once();
+                    let result0 = T::identity();
+                    let ptr1 = (&raw mut _RET_AREA.0).cast::<u8>();
+                    let (t2_0, t2_1) = result0;
+                    let (t3_0, t3_1, t3_2) = t2_0;
+                    *ptr1.add(0).cast::<f32>() = _rt::as_f32(t3_0);
+                    *ptr1.add(4).cast::<f32>() = _rt::as_f32(t3_1);
+                    *ptr1.add(8).cast::<f32>() = _rt::as_f32(t3_2);
+                    *ptr1.add(12).cast::<f32>() = _rt::as_f32(t2_1);
+                    ptr1
+                }
+                #[doc(hidden)]
+                #[allow(non_snake_case)]
+                pub unsafe fn _export_mul_f32_cabi<T: Guest>(
+                    arg0: f32,
+                    arg1: f32,
+                    arg2: f32,
+                    arg3: f32,
+                    arg4: f32,
+                ) -> *mut u8 {
+                    #[cfg(target_arch = "wasm32")] _rt::run_ctors_once();
+                    let result0 = T::mul_f32(((arg0, arg1, arg2), arg3), arg4);
+                    let ptr1 = (&raw mut _RET_AREA.0).cast::<u8>();
+                    let (t2_0, t2_1) = result0;
+                    let (t3_0, t3_1, t3_2) = t2_0;
+                    *ptr1.add(0).cast::<f32>() = _rt::as_f32(t3_0);
+                    *ptr1.add(4).cast::<f32>() = _rt::as_f32(t3_1);
+                    *ptr1.add(8).cast::<f32>() = _rt::as_f32(t3_2);
+                    *ptr1.add(12).cast::<f32>() = _rt::as_f32(t2_1);
+                    ptr1
+                }
+                #[doc(hidden)]
+                #[allow(non_snake_case)]
+                pub unsafe fn _export_div_f32_cabi<T: Guest>(
+                    arg0: f32,
+                    arg1: f32,
+                    arg2: f32,
+                    arg3: f32,
+                    arg4: f32,
+                ) -> *mut u8 {
+                    #[cfg(target_arch = "wasm32")] _rt::run_ctors_once();
+                    let result0 = T::div_f32(((arg0, arg1, arg2), arg3), arg4);
+                    let ptr1 = (&raw mut _RET_AREA.0).cast::<u8>();
+                    let (t2_0, t2_1) = result0;
+                    let (t3_0, t3_1, t3_2) = t2_0;
+                    *ptr1.add(0).cast::<f32>() = _rt::as_f32(t3_0);
+                    *ptr1.add(4).cast::<f32>() = _rt::as_f32(t3_1);
+                    *ptr1.add(8).cast::<f32>() = _rt::as_f32(t3_2);
+                    *ptr1.add(12).cast::<f32>() = _rt::as_f32(t2_1);
+                    ptr1
+                }
+                #[doc(hidden)]
+                #[allow(non_snake_case)]
+                pub unsafe fn _export_to_rotation_vector_cabi<T: Guest>(
+                    arg0: f32,
+                    arg1: f32,
+                    arg2: f32,
+                    arg3: f32,
+                ) -> *mut u8 {
+                    #[cfg(target_arch = "wasm32")] _rt::run_ctors_once();
+                    let result0 = T::to_rotation_vector(((arg0, arg1, arg2), arg3));
+                    let ptr1 = (&raw mut _RET_AREA.0).cast::<u8>();
+                    let (t2_0, t2_1, t2_2) = result0;
+                    *ptr1.add(0).cast::<f32>() = _rt::as_f32(t2_0);
+                    *ptr1.add(4).cast::<f32>() = _rt::as_f32(t2_1);
+                    *ptr1.add(8).cast::<f32>() = _rt::as_f32(t2_2);
+                    ptr1
+                }
+                #[doc(hidden)]
+                #[allow(non_snake_case)]
+                pub unsafe fn _export_to_quaternion_cabi<T: Guest>(
+                    arg0: f32,
+                    arg1: f32,
+                    arg2: f32,
+                    arg3: f32,
+                ) -> *mut u8 {
+                    #[cfg(target_arch = "wasm32")] _rt::run_ctors_once();
+                    let result0 = T::to_quaternion(((arg0, arg1, arg2), arg3));
+                    let ptr1 = (&raw mut _RET_AREA.0).cast::<u8>();
+                    let (t2_0, t2_1, t2_2, t2_3) = result0;
+                    *ptr1.add(0).cast::<f32>() = _rt::as_f32(t2_0);
+                    *ptr1.add(4).cast::<f32>() = _rt::as_f32(t2_1);
+                    *ptr1.add(8).cast::<f32>() = _rt::as_f32(t2_2);
+                    *ptr1.add(12).cast::<f32>() = _rt::as_f32(t2_3);
+                    ptr1
+                }
+                pub trait Guest {
+                    fn identity() -> AxisAngle;
+                    fn mul_f32(aa: AxisAngle, s: f32) -> AxisAngle;
+                    fn div_f32(aa: AxisAngle, s: f32) -> AxisAngle;
+                    fn to_rotation_vector(aa: AxisAngle) -> RotationVector;
+                    fn to_quaternion(aa: AxisAngle) -> Quaternion;
+                }
+                #[doc(hidden)]
+                macro_rules! __export_ardo314_math_axis_angle_0_0_2_cabi {
+                    ($ty:ident with_types_in $($path_to_types:tt)*) => {
+                        const _ : () = { #[unsafe (export_name =
+                        "ardo314:math/axis-angle@0.0.2#identity")] unsafe extern "C" fn
+                        export_identity() -> * mut u8 { unsafe { $($path_to_types)*::
+                        _export_identity_cabi::<$ty > () } } #[unsafe (export_name =
+                        "ardo314:math/axis-angle@0.0.2#mul-f32")] unsafe extern "C" fn
+                        export_mul_f32(arg0 : f32, arg1 : f32, arg2 : f32, arg3 : f32,
+                        arg4 : f32,) -> * mut u8 { unsafe { $($path_to_types)*::
+                        _export_mul_f32_cabi::<$ty > (arg0, arg1, arg2, arg3, arg4) } }
+                        #[unsafe (export_name = "ardo314:math/axis-angle@0.0.2#div-f32")]
+                        unsafe extern "C" fn export_div_f32(arg0 : f32, arg1 : f32, arg2
+                        : f32, arg3 : f32, arg4 : f32,) -> * mut u8 { unsafe {
+                        $($path_to_types)*:: _export_div_f32_cabi::<$ty > (arg0, arg1,
+                        arg2, arg3, arg4) } } #[unsafe (export_name =
+                        "ardo314:math/axis-angle@0.0.2#to-rotation-vector")] unsafe
+                        extern "C" fn export_to_rotation_vector(arg0 : f32, arg1 : f32,
+                        arg2 : f32, arg3 : f32,) -> * mut u8 { unsafe {
+                        $($path_to_types)*:: _export_to_rotation_vector_cabi::<$ty >
+                        (arg0, arg1, arg2, arg3) } } #[unsafe (export_name =
+                        "ardo314:math/axis-angle@0.0.2#to-quaternion")] unsafe extern "C"
+                        fn export_to_quaternion(arg0 : f32, arg1 : f32, arg2 : f32, arg3
+                        : f32,) -> * mut u8 { unsafe { $($path_to_types)*::
+                        _export_to_quaternion_cabi::<$ty > (arg0, arg1, arg2, arg3) } }
+                        };
+                    };
+                }
+                #[doc(hidden)]
+                pub(crate) use __export_ardo314_math_axis_angle_0_0_2_cabi;
+                #[repr(align(4))]
+                struct _RetArea([::core::mem::MaybeUninit<u8>; 16]);
+                static mut _RET_AREA: _RetArea = _RetArea(
+                    [::core::mem::MaybeUninit::uninit(); 16],
+                );
+            }
+            #[allow(dead_code, async_fn_in_trait, unused_imports, clippy::all)]
             pub mod quaternion {
                 #[used]
                 #[doc(hidden)]
@@ -925,6 +1117,39 @@ pub mod exports {
                 use super::super::super::super::_rt;
                 pub type Quaternion = super::super::super::super::exports::ardo314::math::types::Quaternion;
                 pub type RotationVector = super::super::super::super::exports::ardo314::math::types::RotationVector;
+                pub type Vector3d = super::super::super::super::exports::ardo314::math::types::Vector3d;
+                #[doc(hidden)]
+                #[allow(non_snake_case)]
+                pub unsafe fn _export_identity_cabi<T: Guest>() -> *mut u8 {
+                    #[cfg(target_arch = "wasm32")] _rt::run_ctors_once();
+                    let result0 = T::identity();
+                    let ptr1 = (&raw mut _RET_AREA.0).cast::<u8>();
+                    let (t2_0, t2_1, t2_2, t2_3) = result0;
+                    *ptr1.add(0).cast::<f32>() = _rt::as_f32(t2_0);
+                    *ptr1.add(4).cast::<f32>() = _rt::as_f32(t2_1);
+                    *ptr1.add(8).cast::<f32>() = _rt::as_f32(t2_2);
+                    *ptr1.add(12).cast::<f32>() = _rt::as_f32(t2_3);
+                    ptr1
+                }
+                #[doc(hidden)]
+                #[allow(non_snake_case)]
+                pub unsafe fn _export_to_axis_angle_cabi<T: Guest>(
+                    arg0: f32,
+                    arg1: f32,
+                    arg2: f32,
+                    arg3: f32,
+                ) -> *mut u8 {
+                    #[cfg(target_arch = "wasm32")] _rt::run_ctors_once();
+                    let result0 = T::to_axis_angle((arg0, arg1, arg2, arg3));
+                    let ptr1 = (&raw mut _RET_AREA.0).cast::<u8>();
+                    let (t2_0, t2_1) = result0;
+                    let (t3_0, t3_1, t3_2) = t2_0;
+                    *ptr1.add(0).cast::<f32>() = _rt::as_f32(t3_0);
+                    *ptr1.add(4).cast::<f32>() = _rt::as_f32(t3_1);
+                    *ptr1.add(8).cast::<f32>() = _rt::as_f32(t3_2);
+                    *ptr1.add(12).cast::<f32>() = _rt::as_f32(t2_1);
+                    ptr1
+                }
                 #[doc(hidden)]
                 #[allow(non_snake_case)]
                 pub unsafe fn _export_to_rotation_vector_cabi<T: Guest>(
@@ -943,12 +1168,22 @@ pub mod exports {
                     ptr1
                 }
                 pub trait Guest {
+                    fn identity() -> Quaternion;
+                    fn to_axis_angle(q: Quaternion) -> (Vector3d, f32);
                     fn to_rotation_vector(q: Quaternion) -> RotationVector;
                 }
                 #[doc(hidden)]
                 macro_rules! __export_ardo314_math_quaternion_0_0_2_cabi {
                     ($ty:ident with_types_in $($path_to_types:tt)*) => {
                         const _ : () = { #[unsafe (export_name =
+                        "ardo314:math/quaternion@0.0.2#identity")] unsafe extern "C" fn
+                        export_identity() -> * mut u8 { unsafe { $($path_to_types)*::
+                        _export_identity_cabi::<$ty > () } } #[unsafe (export_name =
+                        "ardo314:math/quaternion@0.0.2#to-axis-angle")] unsafe extern "C"
+                        fn export_to_axis_angle(arg0 : f32, arg1 : f32, arg2 : f32, arg3
+                        : f32,) -> * mut u8 { unsafe { $($path_to_types)*::
+                        _export_to_axis_angle_cabi::<$ty > (arg0, arg1, arg2, arg3) } }
+                        #[unsafe (export_name =
                         "ardo314:math/quaternion@0.0.2#to-rotation-vector")] unsafe
                         extern "C" fn export_to_rotation_vector(arg0 : f32, arg1 : f32,
                         arg2 : f32, arg3 : f32,) -> * mut u8 { unsafe {
@@ -959,9 +1194,9 @@ pub mod exports {
                 #[doc(hidden)]
                 pub(crate) use __export_ardo314_math_quaternion_0_0_2_cabi;
                 #[repr(align(4))]
-                struct _RetArea([::core::mem::MaybeUninit<u8>; 12]);
+                struct _RetArea([::core::mem::MaybeUninit<u8>; 16]);
                 static mut _RET_AREA: _RetArea = _RetArea(
-                    [::core::mem::MaybeUninit::uninit(); 12],
+                    [::core::mem::MaybeUninit::uninit(); 16],
                 );
             }
             #[allow(dead_code, async_fn_in_trait, unused_imports, clippy::all)]
@@ -1327,6 +1562,9 @@ macro_rules! __export_math_impl {
         exports::ardo314::math::rotation_vector::__export_ardo314_math_rotation_vector_0_0_2_cabi!($ty
         with_types_in $($path_to_types_root)*:: exports::ardo314::math::rotation_vector);
         $($path_to_types_root)*::
+        exports::ardo314::math::axis_angle::__export_ardo314_math_axis_angle_0_0_2_cabi!($ty
+        with_types_in $($path_to_types_root)*:: exports::ardo314::math::axis_angle);
+        $($path_to_types_root)*::
         exports::ardo314::math::quaternion::__export_ardo314_math_quaternion_0_0_2_cabi!($ty
         with_types_in $($path_to_types_root)*:: exports::ardo314::math::quaternion);
         $($path_to_types_root)*::
@@ -1354,59 +1592,69 @@ pub(crate) use __export_math_impl as export;
 )]
 #[doc(hidden)]
 #[allow(clippy::octal_escapes)]
-pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 2058] = *b"\
-\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\x8f\x0f\x01A\x02\x01\
-A\x20\x01B\x14\x01o\x02vv\x04\0\x08vector2d\x03\0\0\x01o\x03vvv\x04\0\x08vector3\
-d\x03\0\x02\x01o\x04vvvv\x04\0\x08vector4d\x03\0\x04\x01o\x03vvv\x04\0\x0frotati\
-on-vector\x03\0\x06\x01o\x04vvvv\x04\0\x0aquaternion\x03\0\x08\x01o\x03vvv\x04\0\
-\x06pose2d\x03\0\x0a\x01o\x06vvvvvv\x04\0\x06pose3d\x03\0\x0c\x01o\x02vv\x04\0\x07\
-point2d\x03\0\x0e\x01o\x03vvv\x04\0\x07point3d\x03\0\x10\x01r\x02\x06normal\x03\x01\
-dv\x04\0\x05plane\x03\0\x12\x04\0\x18ardo314:math/types@0.0.2\x05\0\x02\x03\0\0\x08\
-vector2d\x01B\x12\x02\x03\x02\x01\x01\x04\0\x08vector2d\x03\0\0\x01@\x02\x03lhs\x01\
-\x03rhs\x01\0\x01\x04\0\x03add\x01\x02\x04\0\x03sub\x01\x02\x01@\x02\x03lhs\x01\x03\
-rhs\x01\0v\x04\0\x03dot\x01\x03\x01@\x02\x03lhs\x01\x03rhsv\0\x01\x04\0\x07add-f\
-32\x01\x04\x04\0\x07sub-f32\x01\x04\x04\0\x07mul-f32\x01\x04\x04\0\x07div-f32\x01\
-\x04\x01@\x01\x01v\x01\0\x01\x04\0\x03neg\x01\x05\x01@\x01\x01v\x01\0v\x04\0\x0a\
-sqr-length\x01\x06\x04\0\x06length\x01\x06\x04\0\x09normalize\x01\x05\x04\0\x1ba\
-rdo314:math/vector2d@0.0.2\x05\x02\x02\x03\0\0\x08vector3d\x01B\x13\x02\x03\x02\x01\
-\x03\x04\0\x08vector3d\x03\0\0\x01@\x02\x03lhs\x01\x03rhs\x01\0\x01\x04\0\x03add\
-\x01\x02\x04\0\x03sub\x01\x02\x01@\x02\x03lhs\x01\x03rhs\x01\0v\x04\0\x03dot\x01\
-\x03\x01@\x02\x03lhs\x01\x03rhsv\0\x01\x04\0\x07add-f32\x01\x04\x04\0\x07sub-f32\
-\x01\x04\x04\0\x07mul-f32\x01\x04\x04\0\x07div-f32\x01\x04\x01@\x01\x01v\x01\0\x01\
-\x04\0\x03neg\x01\x05\x01@\x01\x01v\x01\0v\x04\0\x0asqr-length\x01\x06\x04\0\x06\
-length\x01\x06\x04\0\x09normalize\x01\x05\x04\0\x05cross\x01\x02\x04\0\x1bardo31\
-4:math/vector3d@0.0.2\x05\x04\x02\x03\0\0\x08vector4d\x01B\x12\x02\x03\x02\x01\x05\
-\x04\0\x08vector4d\x03\0\0\x01@\x02\x03lhs\x01\x03rhs\x01\0\x01\x04\0\x03add\x01\
+pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 2429] = *b"\
+\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\x82\x12\x01A\x02\x01\
+A#\x01B\x16\x01o\x02vv\x04\0\x08vector2d\x03\0\0\x01o\x03vvv\x04\0\x08vector3d\x03\
+\0\x02\x01o\x04vvvv\x04\0\x08vector4d\x03\0\x04\x01o\x03vvv\x04\0\x0frotation-ve\
+ctor\x03\0\x06\x01o\x02\x03v\x04\0\x0aaxis-angle\x03\0\x08\x01o\x04vvvv\x04\0\x0a\
+quaternion\x03\0\x0a\x01o\x03vvv\x04\0\x06pose2d\x03\0\x0c\x01o\x06vvvvvv\x04\0\x06\
+pose3d\x03\0\x0e\x01o\x02vv\x04\0\x07point2d\x03\0\x10\x01o\x03vvv\x04\0\x07poin\
+t3d\x03\0\x12\x01r\x02\x06normal\x03\x01dv\x04\0\x05plane\x03\0\x14\x04\0\x18ard\
+o314:math/types@0.0.2\x05\0\x02\x03\0\0\x08vector2d\x01B\x12\x02\x03\x02\x01\x01\
+\x04\0\x08vector2d\x03\0\0\x01@\x02\x03lhs\x01\x03rhs\x01\0\x01\x04\0\x03add\x01\
 \x02\x04\0\x03sub\x01\x02\x01@\x02\x03lhs\x01\x03rhs\x01\0v\x04\0\x03dot\x01\x03\
 \x01@\x02\x03lhs\x01\x03rhsv\0\x01\x04\0\x07add-f32\x01\x04\x04\0\x07sub-f32\x01\
 \x04\x04\0\x07mul-f32\x01\x04\x04\0\x07div-f32\x01\x04\x01@\x01\x01v\x01\0\x01\x04\
 \0\x03neg\x01\x05\x01@\x01\x01v\x01\0v\x04\0\x0asqr-length\x01\x06\x04\0\x06leng\
-th\x01\x06\x04\0\x09normalize\x01\x05\x04\0\x1bardo314:math/vector4d@0.0.2\x05\x06\
-\x02\x03\0\0\x0frotation-vector\x02\x03\0\0\x0aquaternion\x01B\x0c\x02\x03\x02\x01\
-\x07\x04\0\x0frotation-vector\x03\0\0\x02\x03\x02\x01\x03\x04\0\x08vector3d\x03\0\
-\x02\x02\x03\x02\x01\x08\x04\0\x0aquaternion\x03\0\x04\x01@\x01\x02rv\x01\0\x03\x04\
-\0\x04axis\x01\x06\x01@\x01\x02rv\x01\0v\x04\0\x05angle\x01\x07\x01@\x01\x02rv\x01\
-\0\x05\x04\0\x0dto-quaternion\x01\x08\x04\0\"ardo314:math/rotation-vector@0.0.2\x05\
-\x09\x01B\x06\x02\x03\x02\x01\x08\x04\0\x0aquaternion\x03\0\0\x02\x03\x02\x01\x07\
-\x04\0\x0frotation-vector\x03\0\x02\x01@\x01\x01q\x01\0\x03\x04\0\x12to-rotation\
--vector\x01\x04\x04\0\x1dardo314:math/quaternion@0.0.2\x05\x0a\x02\x03\0\0\x07po\
-int2d\x01B\x07\x02\x03\x02\x01\x0b\x04\0\x07point2d\x03\0\0\x02\x03\x02\x01\x01\x04\
-\0\x08vector2d\x03\0\x02\x01@\x02\x01p\x01\x01v\x03\0\x01\x04\0\x0cadd-vector2d\x01\
-\x04\x04\0\x0csub-vector2d\x01\x04\x04\0\x1aardo314:math/point2d@0.0.2\x05\x0c\x02\
-\x03\0\0\x07point3d\x01B\x07\x02\x03\x02\x01\x0d\x04\0\x07point3d\x03\0\0\x02\x03\
-\x02\x01\x03\x04\0\x08vector3d\x03\0\x02\x01@\x02\x01p\x01\x01v\x03\0\x01\x04\0\x0c\
-add-vector3d\x01\x04\x04\0\x0csub-vector3d\x01\x04\x04\0\x1aardo314:math/point3d\
-@0.0.2\x05\x0e\x02\x03\0\0\x06pose2d\x01B\x08\x02\x03\x02\x01\x0f\x04\0\x06pose2\
-d\x03\0\0\x02\x03\x02\x01\x0b\x04\0\x07point2d\x03\0\x02\x01@\x01\x01p\x01\0\x03\
-\x04\0\x08position\x01\x04\x01@\x01\x01p\x01\0v\x04\0\x08rotation\x01\x05\x04\0\x19\
-ardo314:math/pose2d@0.0.2\x05\x10\x02\x03\0\0\x06pose3d\x01B\x0a\x02\x03\x02\x01\
-\x11\x04\0\x06pose3d\x03\0\0\x02\x03\x02\x01\x0d\x04\0\x07point3d\x03\0\x02\x02\x03\
-\x02\x01\x07\x04\0\x0frotation-vector\x03\0\x04\x01@\x01\x01p\x01\0\x03\x04\0\x08\
-position\x01\x06\x01@\x01\x01p\x01\0\x05\x04\0\x08rotation\x01\x07\x04\0\x19ardo\
-314:math/pose3d@0.0.2\x05\x12\x02\x03\0\0\x05plane\x01B\x02\x02\x03\x02\x01\x13\x04\
-\0\x05plane\x03\0\0\x04\0\x18ardo314:math/plane@0.0.2\x05\x14\x04\0\x17ardo314:m\
-ath/math@0.0.2\x04\0\x0b\x0a\x01\0\x04math\x03\0\0\0G\x09producers\x01\x0cproces\
-sed-by\x02\x0dwit-component\x070.227.1\x10wit-bindgen-rust\x060.41.0";
+th\x01\x06\x04\0\x09normalize\x01\x05\x04\0\x1bardo314:math/vector2d@0.0.2\x05\x02\
+\x02\x03\0\0\x08vector3d\x01B\x13\x02\x03\x02\x01\x03\x04\0\x08vector3d\x03\0\0\x01\
+@\x02\x03lhs\x01\x03rhs\x01\0\x01\x04\0\x03add\x01\x02\x04\0\x03sub\x01\x02\x01@\
+\x02\x03lhs\x01\x03rhs\x01\0v\x04\0\x03dot\x01\x03\x01@\x02\x03lhs\x01\x03rhsv\0\
+\x01\x04\0\x07add-f32\x01\x04\x04\0\x07sub-f32\x01\x04\x04\0\x07mul-f32\x01\x04\x04\
+\0\x07div-f32\x01\x04\x01@\x01\x01v\x01\0\x01\x04\0\x03neg\x01\x05\x01@\x01\x01v\
+\x01\0v\x04\0\x0asqr-length\x01\x06\x04\0\x06length\x01\x06\x04\0\x09normalize\x01\
+\x05\x04\0\x05cross\x01\x02\x04\0\x1bardo314:math/vector3d@0.0.2\x05\x04\x02\x03\
+\0\0\x08vector4d\x01B\x12\x02\x03\x02\x01\x05\x04\0\x08vector4d\x03\0\0\x01@\x02\
+\x03lhs\x01\x03rhs\x01\0\x01\x04\0\x03add\x01\x02\x04\0\x03sub\x01\x02\x01@\x02\x03\
+lhs\x01\x03rhs\x01\0v\x04\0\x03dot\x01\x03\x01@\x02\x03lhs\x01\x03rhsv\0\x01\x04\
+\0\x07add-f32\x01\x04\x04\0\x07sub-f32\x01\x04\x04\0\x07mul-f32\x01\x04\x04\0\x07\
+div-f32\x01\x04\x01@\x01\x01v\x01\0\x01\x04\0\x03neg\x01\x05\x01@\x01\x01v\x01\0\
+v\x04\0\x0asqr-length\x01\x06\x04\0\x06length\x01\x06\x04\0\x09normalize\x01\x05\
+\x04\0\x1bardo314:math/vector4d@0.0.2\x05\x06\x02\x03\0\0\x0frotation-vector\x02\
+\x03\0\0\x0aquaternion\x01B\x10\x02\x03\x02\x01\x07\x04\0\x0frotation-vector\x03\
+\0\0\x02\x03\x02\x01\x03\x04\0\x08vector3d\x03\0\x02\x02\x03\x02\x01\x08\x04\0\x0a\
+quaternion\x03\0\x04\x01@\0\0\x01\x04\0\x08identity\x01\x06\x01@\x02\x02rv\x01\x01\
+sv\0\x01\x04\0\x07mul-f32\x01\x07\x04\0\x07div-f32\x01\x07\x01o\x02\x03v\x01@\x01\
+\x02rv\x01\0\x08\x04\0\x0dto-axis-angle\x01\x09\x01@\x01\x02rv\x01\0\x05\x04\0\x0d\
+to-quaternion\x01\x0a\x04\0\"ardo314:math/rotation-vector@0.0.2\x05\x09\x02\x03\0\
+\0\x0aaxis-angle\x01B\x0f\x02\x03\x02\x01\x0a\x04\0\x0aaxis-angle\x03\0\0\x02\x03\
+\x02\x01\x07\x04\0\x0frotation-vector\x03\0\x02\x02\x03\x02\x01\x08\x04\0\x0aqua\
+ternion\x03\0\x04\x01@\0\0\x01\x04\0\x08identity\x01\x06\x01@\x02\x02aa\x01\x01s\
+v\0\x01\x04\0\x07mul-f32\x01\x07\x04\0\x07div-f32\x01\x07\x01@\x01\x02aa\x01\0\x03\
+\x04\0\x12to-rotation-vector\x01\x08\x01@\x01\x02aa\x01\0\x05\x04\0\x0dto-quater\
+nion\x01\x09\x04\0\x1dardo314:math/axis-angle@0.0.2\x05\x0b\x01B\x0d\x02\x03\x02\
+\x01\x08\x04\0\x0aquaternion\x03\0\0\x02\x03\x02\x01\x07\x04\0\x0frotation-vecto\
+r\x03\0\x02\x02\x03\x02\x01\x03\x04\0\x08vector3d\x03\0\x04\x01@\0\0\x01\x04\0\x08\
+identity\x01\x06\x01o\x02\x05v\x01@\x01\x01q\x01\0\x07\x04\0\x0dto-axis-angle\x01\
+\x08\x01@\x01\x01q\x01\0\x03\x04\0\x12to-rotation-vector\x01\x09\x04\0\x1dardo31\
+4:math/quaternion@0.0.2\x05\x0c\x02\x03\0\0\x07point2d\x01B\x07\x02\x03\x02\x01\x0d\
+\x04\0\x07point2d\x03\0\0\x02\x03\x02\x01\x01\x04\0\x08vector2d\x03\0\x02\x01@\x02\
+\x01p\x01\x01v\x03\0\x01\x04\0\x0cadd-vector2d\x01\x04\x04\0\x0csub-vector2d\x01\
+\x04\x04\0\x1aardo314:math/point2d@0.0.2\x05\x0e\x02\x03\0\0\x07point3d\x01B\x07\
+\x02\x03\x02\x01\x0f\x04\0\x07point3d\x03\0\0\x02\x03\x02\x01\x03\x04\0\x08vecto\
+r3d\x03\0\x02\x01@\x02\x01p\x01\x01v\x03\0\x01\x04\0\x0cadd-vector3d\x01\x04\x04\
+\0\x0csub-vector3d\x01\x04\x04\0\x1aardo314:math/point3d@0.0.2\x05\x10\x02\x03\0\
+\0\x06pose2d\x01B\x08\x02\x03\x02\x01\x11\x04\0\x06pose2d\x03\0\0\x02\x03\x02\x01\
+\x0d\x04\0\x07point2d\x03\0\x02\x01@\x01\x01p\x01\0\x03\x04\0\x08position\x01\x04\
+\x01@\x01\x01p\x01\0v\x04\0\x08rotation\x01\x05\x04\0\x19ardo314:math/pose2d@0.0\
+.2\x05\x12\x02\x03\0\0\x06pose3d\x01B\x0a\x02\x03\x02\x01\x13\x04\0\x06pose3d\x03\
+\0\0\x02\x03\x02\x01\x0f\x04\0\x07point3d\x03\0\x02\x02\x03\x02\x01\x07\x04\0\x0f\
+rotation-vector\x03\0\x04\x01@\x01\x01p\x01\0\x03\x04\0\x08position\x01\x06\x01@\
+\x01\x01p\x01\0\x05\x04\0\x08rotation\x01\x07\x04\0\x19ardo314:math/pose3d@0.0.2\
+\x05\x14\x02\x03\0\0\x05plane\x01B\x02\x02\x03\x02\x01\x15\x04\0\x05plane\x03\0\0\
+\x04\0\x18ardo314:math/plane@0.0.2\x05\x16\x04\0\x17ardo314:math/math@0.0.2\x04\0\
+\x0b\x0a\x01\0\x04math\x03\0\0\0G\x09producers\x01\x0cprocessed-by\x02\x0dwit-co\
+mponent\x070.227.1\x10wit-bindgen-rust\x060.41.0";
 #[inline(never)]
 #[doc(hidden)]
 pub fn __link_custom_section_describing_imports() {

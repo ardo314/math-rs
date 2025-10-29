@@ -1,3 +1,4 @@
+mod axis_angle;
 #[allow(warnings)]
 mod bindings;
 mod point2d;

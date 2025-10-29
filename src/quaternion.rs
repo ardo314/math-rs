@@ -1,14 +1,24 @@
 use crate::{
     Component,
     bindings::exports::ardo314::math::{
+        axis_angle,
         quaternion::Guest,
-        types::{Quaternion, RotationVector, Vector3d},
+        types::{AxisAngle, Quaternion, RotationVector, Vector3d},
         vector3d,
     },
 };
 
 impl Guest for Component {
+    fn identity() -> Quaternion {
+        (0.0, 0.0, 0.0, 1.0)
+    }
+
     fn to_rotation_vector(q: Quaternion) -> RotationVector {
+        let aa = Self::to_axis_angle(q);
+        <Component as axis_angle::Guest>::to_rotation_vector(aa)
+    }
+
+    fn to_axis_angle(q: Quaternion) -> AxisAngle {
         let mut axis: Vector3d = (0.0, 0.0, 0.0);
         let angle = 2.0 * q.3.acos();
         if 1.0 - (q.3 * q.3) < 0.000001 {
@@ -22,6 +32,6 @@ impl Guest for Component {
             axis.1 = q.1 / s;
             axis.2 = q.2 / s;
         }
-        <Component as vector3d::Guest>::mul_f32(axis, angle)
+        (axis, angle)
     }
 }
