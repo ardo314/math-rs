@@ -12,6 +12,12 @@
       "type": "shell",
       "command": "cargo component bindings --config config.toml",
       "problemMatcher": []
+    },
+    {
+      "label": "Overwrite wkg config",
+      "type": "shell",
+      "command": "mkdir -p ~/.config/wasm-pkg &&cp config.toml ~/.config/wasm-pkg/config.toml",
+      "problemMatcher": []
     }
   ]
 }
