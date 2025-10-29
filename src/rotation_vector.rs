@@ -1,6 +1,7 @@
 use crate::{
     Component,
     bindings::exports::ardo314::math::{
+        axis_angle,
         rotation_vector::Guest,
         types::{Quaternion, RotationVector, Vector3d},
     },
@@ -10,39 +11,31 @@ fn length(rv: RotationVector) -> f32 {
     (rv.0 * rv.0 + rv.1 * rv.1 + rv.2 * rv.2).sqrt()
 }
 
-fn div_f32(lhs: RotationVector, rhs: f32) -> RotationVector {
-    (lhs.0 / rhs, lhs.1 / rhs, lhs.2 / rhs)
-}
-
-fn to_components(rv: RotationVector) -> (Vector3d, f32) {
-    let angle = length(rv);
-    let axis = if angle > 0.0 {
-        div_f32(rv, angle)
-    } else {
-        (0.0, 0.0, 0.0)
-    };
-    (axis, angle)
-}
-
 impl Guest for Component {
-    fn axis(rv: RotationVector) -> Vector3d {
-        let (axis, _angle) = to_components(rv);
-        axis
+    fn identity() -> RotationVector {
+        (0.0, 0.0, 0.0)
     }
 
-    fn angle(rv: RotationVector) -> f32 {
-        length(rv)
+    fn mul_f32(rv: RotationVector, s: f32) -> RotationVector {
+        (rv.0 * s, rv.1 * s, rv.2 * s)
+    }
+
+    fn div_f32(rv: RotationVector, s: f32) -> RotationVector {
+        (rv.0 / s, rv.1 / s, rv.2 / s)
+    }
+
+    fn to_axis_angle(rv: RotationVector) -> (Vector3d, f32) {
+        let angle = length(rv);
+        let axis = if angle > 0.0 {
+            Self::div_f32(rv, angle)
+        } else {
+            (0.0, 0.0, 0.0)
+        };
+        (axis, angle)
     }
 
     fn to_quaternion(rv: RotationVector) -> Quaternion {
-        let (axis, angle) = to_components(rv);
-        let half_angle = angle / 2.0;
-        let s = half_angle.sin();
-
-        let x = axis.0 * s;
-        let y = axis.1 * s;
-        let z = axis.2 * s;
-        let w = half_angle.cos();
-        (x, y, z, w)
+        let aa = Self::to_axis_angle(rv);
+        <Component as axis_angle::Guest>::to_quaternion(aa)
     }
 }

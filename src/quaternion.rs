@@ -4,7 +4,6 @@ use crate::{
         axis_angle,
         quaternion::Guest,
         types::{AxisAngle, Quaternion, RotationVector, Vector3d},
-        vector3d,
     },
 };
 
