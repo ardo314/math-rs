@@ -16,11 +16,19 @@ impl Guest for Component {
         lhs.0 * rhs.0 + lhs.1 * rhs.1
     }
 
-    fn mul(lhs: Vector2d, rhs: f32) -> Vector2d {
+    fn add_f32(lhs: Vector2d, rhs: f32) -> Vector2d {
+        (lhs.0 + rhs, lhs.1 + rhs)
+    }
+
+    fn sub_f32(lhs: Vector2d, rhs: f32) -> Vector2d {
+        (lhs.0 - rhs, lhs.1 - rhs)
+    }
+
+    fn mul_f32(lhs: Vector2d, rhs: f32) -> Vector2d {
         (lhs.0 * rhs, lhs.1 * rhs)
     }
 
-    fn div(lhs: Vector2d, rhs: f32) -> Vector2d {
+    fn div_f32(lhs: Vector2d, rhs: f32) -> Vector2d {
         (lhs.0 / rhs, lhs.1 / rhs)
     }
 
