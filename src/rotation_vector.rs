@@ -3,7 +3,7 @@ use crate::{
     bindings::exports::ardo314::math::{
         axis_angle,
         rotation_vector::Guest,
-        types::{Matrix3x3, Quaternion, RotationVector, Vector3d},
+        types::{AxisAngle, Matrix3x3, Quaternion, RotationVector},
     },
 };
 
@@ -24,7 +24,7 @@ impl Guest for Component {
         (rv.0 / s, rv.1 / s, rv.2 / s)
     }
 
-    fn to_axis_angle(rv: RotationVector) -> (Vector3d, f32) {
+    fn to_axis_angle(rv: RotationVector) -> AxisAngle {
         let angle = length(rv);
         let axis = if angle > 0.0 {
             Self::div_f32(rv, angle)
