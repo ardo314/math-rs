@@ -1,6 +1,9 @@
 mod axis_angle;
 #[allow(warnings)]
 mod bindings;
+mod matrix2x2;
+mod matrix3x3;
+mod matrix4x4;
 mod point2d;
 mod point2d_test;
 mod point3d;

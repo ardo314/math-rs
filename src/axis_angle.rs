@@ -2,7 +2,7 @@ use crate::{
     Component,
     bindings::exports::ardo314::math::{
         axis_angle::Guest,
-        types::{AxisAngle, Quaternion, RotationVector},
+        types::{AxisAngle, Matrix3x3, Quaternion, RotationVector},
     },
 };
 
@@ -32,5 +32,9 @@ impl Guest for Component {
         let z = aa.0.2 * s;
         let w = half_angle.cos();
         (x, y, z, w)
+    }
+
+    fn to_matrix3x3(aa: AxisAngle) -> Matrix3x3 {
+        todo!()
     }
 }
