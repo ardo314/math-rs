@@ -52,31 +52,16 @@ impl Guest for Component {
         let wy = w * y2;
         let wz = w * z2;
 
-        te[0] = (1 - (yy + zz));
-        te[1] = (xy + wz);
-        te[2] = (xz - wy);
-        te[3] = 0;
-
-        te[4] = (xy - wz);
-        te[5] = (1 - (xx + zz));
-        te[6] = (yz + wx);
-        te[7] = 0;
-
-        te[8] = (xz + wy);
-        te[9] = (yz - wx);
-        te[10] = (1 - (xx + yy));
-        te[11] = 0;
-
         Matrix3x3 {
-            m00: (),
-            m10: (),
-            m20: (),
-            m01: (),
-            m11: (),
-            m21: (),
-            m02: (),
-            m12: (),
-            m22: (),
+            m00: 1.0 - (yy + zz),
+            m10: xy + wz,
+            m20: xz - wy,
+            m01: xy - wz,
+            m11: 1.0 - (xx + zz),
+            m21: yz + wx,
+            m02: xz + wy,
+            m12: yz - wx,
+            m22: 1.0 - (xx + yy),
         }
     }
 }

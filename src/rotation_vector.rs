@@ -1,7 +1,7 @@
 use crate::{
     Component,
     bindings::exports::ardo314::math::{
-        axis_angle,
+        axis_angle, quaternion,
         rotation_vector::Guest,
         types::{AxisAngle, Matrix3x3, Quaternion, RotationVector},
     },
@@ -40,6 +40,7 @@ impl Guest for Component {
     }
 
     fn to_matrix3x3(rv: RotationVector) -> Matrix3x3 {
-        todo!()
+        let q = Self::to_quaternion(rv);
+        <Component as quaternion::Guest>::to_matrix3x3(q)
     }
 }
