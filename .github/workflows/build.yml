@@ -83,6 +83,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Copy config.toml
+        run: mkdir -p ~/.config/wasm-pkg && cp config.toml ~/.config/wasm-pkg/config.toml
+
       - name: Build component
         run: cargo component build --release
 
