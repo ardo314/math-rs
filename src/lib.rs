@@ -7,6 +7,7 @@ mod matrix4x4;
 mod point2d;
 mod point2d_test;
 mod point3d;
+mod point3d_test;
 mod pose2d;
 mod pose3d;
 mod quaternion;
