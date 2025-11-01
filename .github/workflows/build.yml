@@ -44,10 +44,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Extract version from world.wit
+      - name: Extract version from Cargo.toml
         id: read-version
         run: |
-          VERSION=$(grep -o 'package ardo314:math@[0-9]*\.[0-9]*\.[0-9]*' wit/world.wit | sed 's/package ardo314:math@//')
+          VERSION=$(grep '^version = ' Cargo.toml | sed 's/version = "\(.*\)"/\1/')
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Extracted version: $VERSION"
 
