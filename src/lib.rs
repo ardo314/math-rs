@@ -12,6 +12,7 @@ mod pose2d;
 mod pose3d;
 mod quaternion;
 mod rotation_matrix2x2;
+mod rotation_matrix2x2_test;
 mod rotation_matrix3x3;
 mod rotation_vector;
 mod vector2d;
