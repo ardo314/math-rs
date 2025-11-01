@@ -111,9 +111,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: math-rs-wasm
+          path: .
 
       - name: Verify artifact
-        run: ls -la target/wasm32-wasip1/release/math_rs.wasm
+        run: ls -la math_rs.wasm
 
       - name: Publish component
-        run: wkg oci push ardo314/math-rs:${{ needs.read-version.outputs.version }} target/wasm32-wasip1/release/math_rs.wasm -u ${{ secrets.DOCKERHUB_USER }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+        run: wkg oci push ardo314/math-rs:${{ needs.read-version.outputs.version }} math_rs.wasm -u ${{ secrets.DOCKERHUB_USER }} -p ${{ secrets.DOCKERHUB_TOKEN }}
