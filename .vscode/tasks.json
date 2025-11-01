@@ -16,7 +16,7 @@
     {
       "label": "Overwrite wkg config",
       "type": "shell",
-      "command": "mkdir -p ~/.config/wasm-pkg &&cp config.toml ~/.config/wasm-pkg/config.toml",
+      "command": "mkdir -p ~/.config/wasm-pkg && cp config.toml ~/.config/wasm-pkg/config.toml",
       "problemMatcher": []
     }
   ]
