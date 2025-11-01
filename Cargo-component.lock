@@ -8,4 +8,4 @@ name = "ardo314:math"
 [[package.version]]
 requirement = "^0.0.3"
 version = "0.0.3"
-digest = "sha256:5314e8702971eb8dc69339fa92860178f082442733b461f448459e7475fd2091"
+digest = "sha256:6abf7b0a959dde1ed786c9fa6cb5eaff218d9cb29560edabffa1f16375c63e48"

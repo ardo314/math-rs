@@ -35,6 +35,33 @@ impl Guest for Component {
     }
 
     fn to_matrix3x3(q: Quaternion) -> Matrix3x3 {
-        todo!()
+        let x = q.0;
+        let y = q.1;
+        let z = q.2;
+        let w = q.3;
+        let x2 = x + x;
+        let y2 = y + y;
+        let z2 = z + z;
+        let xx = x * x2;
+        let xy = x * y2;
+        let xz = x * z2;
+        let yy = y * y2;
+        let yz = y * z2;
+        let zz = z * z2;
+        let wx = w * x2;
+        let wy = w * y2;
+        let wz = w * z2;
+
+        Matrix3x3 {
+            m00: 1.0 - (yy + zz),
+            m10: xy + wz,
+            m20: xz - wy,
+            m01: xy - wz,
+            m11: 1.0 - (xx + zz),
+            m21: yz + wx,
+            m02: xz + wy,
+            m12: yz - wx,
+            m22: 1.0 - (xx + yy),
+        }
     }
 }
