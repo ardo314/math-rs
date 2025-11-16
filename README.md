@@ -11,16 +11,19 @@ This library provides a collection of mathematical types and operations commonly
 ## Features
 
 ### Vector Operations
+
 - **Vector2d** - 2D vector operations (addition, subtraction, dot product, normalization, etc.)
 - **Vector3d** - 3D vector operations including cross product
 - **Vector4d** - 4D vector operations for homogeneous coordinates
 
 ### Matrix Operations
+
 - **Matrix2x2** - 2D transformation matrices
 - **Matrix3x3** - 3D rotation and scaling matrices
 - **Matrix4x4** - 4D transformation matrices for 3D graphics
 
 ### Rotation Representations
+
 - **Quaternion** - Quaternion-based rotations with SLERP interpolation
 - **AxisAngle** - Axis-angle rotation representation
 - **RotationMatrix2x2** - 2D rotation matrices
@@ -28,6 +31,7 @@ This library provides a collection of mathematical types and operations commonly
 - **RotationVector** - Rotation vectors (scaled axis representation)
 
 ### Geometric Types
+
 - **Point2d** - 2D point operations
 - **Point3d** - 3D point operations
 - **Pose2d** - 2D pose (position + orientation)
